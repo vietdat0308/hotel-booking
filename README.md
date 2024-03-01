@@ -1,4 +1,4 @@
-# Subscriptions Service
+# Hotel Booking Service
 
 This application is used specifically for providing Subscription services
 

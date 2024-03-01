@@ -1,0 +1,166 @@
+openapi: 3.0.1
+info:
+  title: Hotel Booking APIs
+  version: 1.0.0
+servers:
+  - url: /api/v1
+paths:
+  /bookings:
+    get:
+      tags:
+        - Bookings
+      summary: Get a list of bookings
+      operationId: getBookings
+      parameters:
+        - name: searchKey
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: pageable
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageableDto'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingsDto'
+        '500':
+          description: Internal Server Error
+    post:
+        tags:
+          - Bookings
+        summary: Create a booking
+        operationId: createBooking
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingCreateDto'
+          required: true
+        responses:
+          '201':
+            $ref: '#/components/responses/ResourceCreated'
+          '400':
+            description: Bad request
+          '500':
+            description: Internal Server Error
+    put:
+      tags:
+        - Bookings
+      summary: Update a booking
+      operationId: updateBooking
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingUpdateDto'
+        required: true
+      responses:
+        '204':
+          description: The booking was updated successfully
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error
+  /bookings/{id}:
+    get:
+      tags:
+        - Bookings
+      summary: Get booking details
+      operationId: getBookingDetail
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingDto'
+        "404":
+          description: Not found
+        '500':
+          description: Internal Server Error
+
+components:
+  schemas:
+    PageableDto:
+      type: object
+      properties:
+        page:
+          type: integer
+        pageSize:
+          type: integer
+          default: 10
+    BookingsDto:
+      type: object
+      properties:
+        data:
+          type: array
+          default: [ ]
+          items:
+            $ref: '#/components/schemas/BookingViewDto'
+        total:
+          type: integer
+          format: int64
+          default: 0
+    BookingViewDto:
+      allOf:
+        - $ref: '#/components/schemas/BookingDto'
+    BookingDto:
+      type: object
+      properties:
+        room:
+          type: string
+        user:
+          type: string
+        checkIn:
+          type: string
+          format: date
+        checkOut:
+          type: string
+          format: date
+        createdDate:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/BookingStatusDto'
+    BookingCreateDto:
+      type: object
+      properties:
+        roomId:
+          type: integer
+          format: int64
+        userId:
+          type: integer
+          format: int64
+        checkIn:
+          type: string
+        checkOut:
+          type: string
+    BookingUpdateDto:
+      type: object
+      properties:
+        page:
+          type: integer
+    BookingStatusDto:
+      type: string
+      enum: [ BOOKED, COMPLETED, CANCELLED ]
+  responses:
+    ResourceCreated:
+      description: The resource is created
+      content:
+        application/json:
+          schema:
+            type: integer
+            format: int64

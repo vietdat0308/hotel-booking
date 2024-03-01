@@ -1,0 +1,30 @@
+server:
+  servlet:
+    context-path: /hotel-booking-service
+spring:
+  application:
+    name: hotel-booking-service
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=public
+    username: admin
+    password: admin
+  jpa:
+    show-sql: true
+    open-in-view: false
+    # Hibernate's dedicated properties
+    properties:
+      hibernate:
+        format_sql: true
+    # Spring Hibernate's dedicated properties
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+      ddl-auto: none
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.SQL_SLOW: INFO

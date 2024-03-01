@@ -1,0 +1,39 @@
+version: '3.4'
+
+networks:
+  backend_net:
+    driver: bridge
+    name: backend_net
+
+volumes:
+  postgres:
+    name: postgres
+
+services:
+  cockroach:
+    image: postgres:14.5-alpine
+    container_name: postgres
+    hostname:  ${POSTGRES_HOST}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+       - postgres:/var/lib/postgresql/data
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    networks:
+      - backend_net
+
+  artemis:
+    image: vromero/activemq-artemis:latest-alpine
+    container_name: artemis
+    hostname: ${ARTEMIS_HOST}
+    environment:
+      ARTEMIS_USERNAME: ${ARTEMIS_USERNAME}
+      ARTEMIS_PASSWORD: ${ARTEMIS_PASSWORD}
+    ports:
+      - "${ARTEMIS_PORT}:${ARTEMIS_PORT}"
+      - "${ARTEMIS_UI_PORT}:${ARTEMIS_UI_PORT}"
+    networks:
+      - backend_net
