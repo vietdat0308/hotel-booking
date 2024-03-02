@@ -6,11 +6,18 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * The enum lists booking statuses.
+ *
+ * @author datnguyenv1
+ * @version 1.0
+ * @since 2024/03/02
+ */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public enum BookingStatus {
 
-  BOOKED(0), COMPLETED(1), CANCELLED(2);
+  PENDING(0), BOOKED(1), FAILED(2), COMPLETED(3), CANCELLED(4);
 
   private final int value;
 
@@ -25,12 +32,5 @@ public enum BookingStatus {
   public static BookingStatus fromValue(Integer value) {
     return lookup.get(value);
   }
-
-//  public static Status toEntity(StatusDto status) {
-//    if (Objects.isNull(status)) {
-//      return null;
-//    }
-//    return Status.valueOf(status.toString());
-//  }
 
 }

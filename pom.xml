@@ -116,11 +116,11 @@
               <goal>generate</goal>
             </goals>
             <configuration>
-              <inputSpec>${project.basedir}/src/main/resources/static/gc-catalog-swagger.yaml
+              <inputSpec>${project.basedir}/src/main/resources/static/hotel-booking-swagger.yaml
               </inputSpec>
               <generatorName>spring</generatorName>
-              <apiPackage>com.cloud.galactic.openapi.api</apiPackage>
-              <modelPackage>com.cloud.galactic.openapi.model</modelPackage>
+              <apiPackage>com.hrs.hotelbooking.openapi.api</apiPackage>
+              <modelPackage>com.hrs.hotelbooking.openapi.model</modelPackage>
               <configOptions>
                 <interfaceOnly>true</interfaceOnly>
                 <additionalModelTypeAnnotations>

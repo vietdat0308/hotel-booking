@@ -8,10 +8,9 @@ spring:
     allow-bean-definition-overriding: true
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=public
-    username: admin
-    password: admin
+    username: postgres
+    password: postgres
   jpa:
-    show-sql: true
     open-in-view: false
     # Hibernate's dedicated properties
     properties:
@@ -22,9 +21,24 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
       ddl-auto: none
+  jms:
+      listener:
+        concurrency: 1
+  artemis:
+    mode: native
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+
+integration:
+  activemq:
+    queue:
+      creating:
+        booking: queue.creating.booking
 
 logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.hibernate.SQL_SLOW: INFO
+    org.springframework.jms: DEBUG

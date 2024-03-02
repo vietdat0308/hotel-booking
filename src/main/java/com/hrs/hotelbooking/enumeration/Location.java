@@ -6,6 +6,13 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * The enum lists locations.
+ *
+ * @author datnguyenv1
+ * @version 1.0
+ * @since 2024/03/02
+ */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public enum Location {
@@ -25,12 +32,5 @@ public enum Location {
   public static Location fromValue(Integer value) {
     return lookup.get(value);
   }
-
-//  public static Status toEntity(StatusDto status) {
-//    if (Objects.isNull(status)) {
-//      return null;
-//    }
-//    return Status.valueOf(status.toString());
-//  }
 
 }

@@ -3,6 +3,7 @@ package com.hrs.hotelbooking.entity;
 import com.hrs.hotelbooking.enumeration.BookingStatus;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +14,13 @@ import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * The entity represents a booking.
+ *
+ * @author datnguyenv1
+ * @version 1.0
+ * @since 2024/03/02
+ */
 @Getter
 @Setter
 @Entity
@@ -23,11 +31,11 @@ public class Booking {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "room_id")
   private Room room;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private User user;
 
@@ -39,6 +47,8 @@ public class Booking {
 
   @NotNull
   private BookingStatus status;
+
+  private String failReason;
 
   @NotNull
   private LocalDateTime createdAt;

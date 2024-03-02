@@ -5,6 +5,37 @@ info:
 servers:
   - url: /api/v1
 paths:
+  /hotels:
+    get:
+      tags:
+        - Hotels
+      summary: Get a list of hotels
+      operationId: getHotels
+      parameters:
+        - name: searchKey
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: filter
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/HotelFilterDto'
+        - name: pageable
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageableDto'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HotelsDto'
+        '500':
+          description: Internal Server Error
   /bookings:
     get:
       tags:
@@ -12,11 +43,6 @@ paths:
       summary: Get a list of bookings
       operationId: getBookings
       parameters:
-        - name: searchKey
-          required: false
-          in: query
-          schema:
-            type: string
         - name: pageable
           required: false
           in: query
@@ -49,24 +75,6 @@ paths:
             description: Bad request
           '500':
             description: Internal Server Error
-    put:
-      tags:
-        - Bookings
-      summary: Update a booking
-      operationId: updateBooking
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BookingUpdateDto'
-        required: true
-      responses:
-        '204':
-          description: The booking was updated successfully
-        '400':
-          description: Bad request
-        '500':
-          description: Internal Server Error
   /bookings/{id}:
     get:
       tags:
@@ -94,14 +102,12 @@ paths:
 
 components:
   schemas:
-    PageableDto:
+    HotelFilterDto:
       type: object
       properties:
-        page:
+        location:
           type: integer
-        pageSize:
-          type: integer
-          default: 10
+          format: int32
     BookingsDto:
       type: object
       properties:
@@ -109,17 +115,17 @@ components:
           type: array
           default: [ ]
           items:
-            $ref: '#/components/schemas/BookingViewDto'
+            $ref: '#/components/schemas/BookingDto'
         total:
           type: integer
           format: int64
           default: 0
-    BookingViewDto:
-      allOf:
-        - $ref: '#/components/schemas/BookingDto'
     BookingDto:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
         room:
           type: string
         user:
@@ -146,16 +152,50 @@ components:
           format: int64
         checkIn:
           type: string
+          format: date
         checkOut:
           type: string
+          format: date
     BookingUpdateDto:
       type: object
       properties:
         page:
           type: integer
+    HotelsDto:
+      type: object
+      properties:
+        data:
+          type: array
+          default: [ ]
+          items:
+            $ref: '#/components/schemas/HotelDto'
+        total:
+          type: integer
+          format: int64
+          default: 0
+    HotelDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        location:
+          $ref: '#/components/schemas/LocationDto'
     BookingStatusDto:
       type: string
       enum: [ BOOKED, COMPLETED, CANCELLED ]
+    LocationDto:
+      type: string
+      enum: [ HCM, HN ]
+    PageableDto:
+      type: object
+      properties:
+        page:
+          type: integer
+        pageSize:
+          type: integer
   responses:
     ResourceCreated:
       description: The resource is created

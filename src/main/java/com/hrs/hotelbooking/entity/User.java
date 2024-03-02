@@ -9,6 +9,13 @@ import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * The entity represents a user.
+ *
+ * @author datnguyenv1
+ * @version 1.0
+ * @since 2024/03/02
+ */
 @Getter
 @Setter
 @Entity

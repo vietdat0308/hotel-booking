@@ -37,6 +37,7 @@ CREATE TABLE bookings (
   check_in TIMESTAMP NOT NULL,
   check_out TIMESTAMP NOT NULL,
   status INT2 NOT NULL,
+  fail_reason VARCHAR(256),
   created_at TIMESTAMP NOT NULL
 );
 
